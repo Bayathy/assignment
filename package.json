@@ -9,7 +9,8 @@
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
-    "test": "vitest --passWithNoTests"
+    "test": "vitest --passWithNoTests",
+    "msw": "msw init public"
   },
   "dependencies": {
     "@kuma-ui/core": "^1.5.6",
