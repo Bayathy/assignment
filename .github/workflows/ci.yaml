@@ -1,0 +1,51 @@
+name: CI
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions: 
+  actions: read
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup bun
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: bun build
+  
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup bun
+        uses: ./.github/actions/setup
+
+      - name: Lint
+        run: bun lint
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: setup bun
+        uses: ./.github/actions/setup
+
+      - name: Test
+        run: bun test
