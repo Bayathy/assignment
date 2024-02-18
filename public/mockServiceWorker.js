@@ -2,13 +2,15 @@
 /* tslint:disable */
 
 /**
- * Mock Service Worker (1.3.2).
+ * Mock Service Worker (2.2.1).
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
  */
 
 const INTEGRITY_CHECKSUM = '3d6b9f06410d179a7f7404d4bf4c3c70'
+const INTEGRITY_CHECKSUM = '223d191a56023cd36aa88c802961b911'
+const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
 const activeClientIds = new Set()
 
 self.addEventListener('install', function () {
@@ -276,9 +278,6 @@ async function getResponse(event, client, requestId) {
 }
 
 function sendToClient(client, message) {
-  return new Promise((resolve, reject) => {
-    const channel = new MessageChannel()
-
     channel.port1.onmessage = (event) => {
       if (event.data && event.data.error) {
         return reject(event.data.error)
