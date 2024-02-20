@@ -10,8 +10,10 @@ import { fetcher } from '../lib/fetcher'
 export function usePrefectures() {
   const { data, isLoading, error } = useSWR<Prefecture>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
 
+  const prefectures = data?.result
+
   return {
-    data,
+    prefectures,
     isLoading,
     error,
   }

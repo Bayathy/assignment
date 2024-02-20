@@ -26,9 +26,11 @@ it('データ取得後のテスト', async () => {
   )
 
   const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: SwrTestProvider })
+
   await waitForNextUpdate()
+
   expect(result.current).toEqual({
-    data: prefectures,
+    prefectures: prefectures.result,
     error: undefined,
     isLoading: false,
   })
