@@ -10,13 +10,14 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "test": "vitest --passWithNoTests",
-    "msw": "msw init public"
+    "msw": "msw init public --save"
   },
   "dependencies": {
     "@kuma-ui/core": "^1.5.6",
     "@unocss/reset": "^0.58.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
@@ -24,6 +25,7 @@
     "@kuma-ui/vite": "^1.2.2",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
