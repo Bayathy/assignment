@@ -10,9 +10,8 @@ export async function fetcher(url: string) {
 
   const body = await res.json()
 
-  if (body.status !== 200) {
+  if (body.statusCode) {
     const error = errorHandler(Number(body.statusCode))
-
     throw error
   }
 
