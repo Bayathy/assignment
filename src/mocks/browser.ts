@@ -7,8 +7,6 @@ export async function setupMockWorker() {
       ...handlers,
     )
 
-    worker.start({
-      onUnhandledRequest: 'bypass',
-    })
+    worker.start()
   }
 }
