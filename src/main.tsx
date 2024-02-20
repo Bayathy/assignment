@@ -2,12 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import '@unocss/reset/tailwind.css'
-import { setupMsw } from './mocks/setupWorker.ts'
 
-setupMsw()
+import { setupMockWorker } from './mocks/browser.ts'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+setupMockWorker().then(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  )
+},
 )
