@@ -1,20 +1,9 @@
-import { css } from '@kuma-ui/core'
+import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
 
 function App() {
   return (
-    <div className={css`
-      background-color: red;
-    `}
-    >
-      <p className={css`
-        color: blue;
-      `}
-      >
-        test
-      </p>
-      <ul>
-        <li>test</li>
-      </ul>
+    <div>
+      <SelectPrefectureForm />
     </div>
   )
 }
