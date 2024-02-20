@@ -1,5 +1,4 @@
 import useSWR from 'swr'
-import { apiUrl } from '../lib/CONSTANT'
 import type { Prefecture } from '../model/prefecture'
 import { fetcher } from '../lib/fetcher'
 
@@ -8,8 +7,8 @@ import { fetcher } from '../lib/fetcher'
  * @returns
  */
 
-export function getPrefectures() {
-  const { data, isLoading, error } = useSWR<Prefecture>(`${apiUrl}/api/v1/prefectures`, fetcher)
+export function usePrefectures() {
+  const { data, isLoading, error } = useSWR<Prefecture>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
 
   return {
     data,

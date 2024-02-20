@@ -1,5 +1,4 @@
 import useSWR from 'swr'
-import { apiUrl } from '../lib/CONSTANT'
 import { fetcher } from '../lib/fetcher'
 
 /**
@@ -8,8 +7,8 @@ import { fetcher } from '../lib/fetcher'
  * @returns
  */
 
-export async function getPopulation(prefCode: number) {
-  const { data, isLoading, error } = useSWR(`${apiUrl}/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefCode}`, fetcher)
+export async function usePopulation(prefCode: number) {
+  const { data, isLoading, error } = useSWR(`${import.meta.env.VITE_API_URL}/population/composition/perYear?cityCode=-&prefCode=${prefCode}`, fetcher)
   const population = data?.result
 
   return {
