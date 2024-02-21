@@ -1,15 +1,19 @@
-import { ModeTabs } from './components/core/ModeTabs'
-import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
+import { Chart } from './components/core/Chart'
+import { population } from './mocks/data/population'
 
 function App() {
   return (
     <div>
-      <SelectPrefectureForm />
-      <ModeTabs
-        totalGraph={<div>全体のグラフ</div>}
-        juniorsGraph={<div>年少人口のグラフ</div>}
-        workingGraph={<div>生産年齢人口のグラフ</div>}
-        oldGraph={<div>老年人口のグラフ</div>}
+      <Chart populations={[
+        {
+          label: '東京都',
+          data: population[0].result.data[0].data,
+        },
+        {
+          label: '大阪府',
+          data: population[1].result.data[0].data,
+        },
+      ]}
       />
     </div>
   )
