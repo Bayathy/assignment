@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { SWRConfig } from 'swr'
 import App from './App.tsx'
 import '@unocss/reset/tailwind.css'
+import './global.css'
 
 import { setupMockWorker } from './mocks/browser.ts'
 
