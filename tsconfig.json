@@ -9,6 +9,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
+    "types": ["vitest/globals"],
     "allowImportingTsExtensions": true,
 
     /* Linting */
@@ -18,9 +19,8 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
-    "types": ["vitest/globals"],
+    "skipLibCheck": true
   },
   "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["src", "./kuma.config.ts"],
+  "include": ["src", "./kuma.config.ts"]
 }
