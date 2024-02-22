@@ -10,8 +10,7 @@ export default defineConfig({
     cors: true,
   },
   test: {
-    name: 'react',
-    root: './src',
+    globals: true,
     environment: 'happy-dom',
     setupFiles: ['./setup-test.ts'],
   },

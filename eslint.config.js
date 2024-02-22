@@ -6,5 +6,6 @@ export default antfu({
 }, {
   rules: {
     'react/prop-types': 'off',
+    'react/display-name': 'off',
   },
 })

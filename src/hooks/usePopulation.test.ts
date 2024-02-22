@@ -1,7 +1,7 @@
 import { expect, it, vi } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
 import { rest } from 'msw'
-import { SwrTestProvider } from '../lib/SwrTestProvider'
+import { SwrTestProvider } from '../components/provider/SWRTestProvider'
 import { server } from '../mocks/server'
 import { population } from '../mocks/data/population'
 import { usePopulation } from './usePopulation'
