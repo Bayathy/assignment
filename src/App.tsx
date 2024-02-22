@@ -3,6 +3,7 @@ import { Chart } from './components/core/Chart'
 import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
 import { Header } from './components/ui/Header'
 import { population } from './mocks/data/population'
+import { ModeTabs } from './components/core/ModeTabs'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         gap: 16px;
       `}
       >
+        <ModeTabs totalGraph={<div>Total Graph</div>} juniorsGraph={<div>Juniors Graph</div>} workingGraph={<div>Working Graph</div>} oldGraph={<div>Old Graph</div>} />
         <SelectPrefectureForm />
         <Chart populations={[
           {

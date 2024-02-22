@@ -12,7 +12,7 @@ interface Props {
 export const ModeTabs: FC<Props> = ({ totalGraph, juniorsGraph, workingGraph, oldGraph }) => {
   return (
     <form>
-      <Tabs.Root>
+      <Tabs.Root defaultValue="total">
         <Tabs.List>
           <Tabs.Trigger value="total">全体</Tabs.Trigger>
           <Tabs.Trigger value="juniors">年少人口</Tabs.Trigger>
