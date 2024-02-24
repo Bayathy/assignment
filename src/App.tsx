@@ -1,11 +1,26 @@
 import { css } from '@kuma-ui/core'
+import { useState } from 'react'
 import { Chart } from './components/core/Chart'
 import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
 import { Header } from './components/ui/Header'
-import { population } from './mocks/data/population'
 import { ModeTabs } from './components/core/ModeTabs'
+import { usePrefectures } from './hooks/usePrefectures'
+import { usePopulations } from './hooks/usePopulations'
+import type { Prefecture } from './model/prefecture'
 
 function App() {
+  const { prefectures } = usePrefectures()
+  const [selectedPrefectures, setSelectedPrefectures] = useState<Prefecture[]>([])
+  const { fetchPopulation } = usePopulations()
+
+  const toggleSelectPrefecture = (pressed: boolean) =>
+    (selectPrefecture: Prefecture) => {
+      const newList = pressed ? [selectPrefecture, ...selectedPrefectures] : selectedPrefectures.filter(prefecture => prefecture.prefCode !== selectPrefecture.prefCode)
+
+      setSelectedPrefectures(newList)
+      fetchPopulation(newList)
+    }
+
   return (
     <div className={css`
       min-height: 100vh;
@@ -23,21 +38,17 @@ function App() {
         display: flex;
         flex-direction: column;
         gap: 16px;
+        padding-inline: 16px;
       `}
       >
-        <ModeTabs totalGraph={<div>Total Graph</div>} juniorsGraph={<div>Juniors Graph</div>} workingGraph={<div>Working Graph</div>} oldGraph={<div>Old Graph</div>} />
-        <SelectPrefectureForm />
-        <Chart populations={[
-          {
-            label: '東京都',
-            data: population[0].result.data[0].data,
-          },
-          {
-            label: '大阪府',
-            data: population[1].result.data[0].data,
-          },
-        ]}
-        />
+        {prefectures
+        && (
+          <SelectPrefectureForm
+            prefectures={prefectures}
+            handleSelectPrefecture={toggleSelectPrefecture}
+          />
+        )}
+        <ModeTabs totalGraph={<Chart mode="total" />} juniorsGraph={<Chart mode="juniors" />} workingGraph={<Chart mode="working" />} oldGraph={<Chart mode="old" />} />
       </main>
     </div>
   )
