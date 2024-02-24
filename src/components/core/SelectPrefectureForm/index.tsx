@@ -1,20 +1,15 @@
-import { useCallback, useState } from 'react'
+import type { FC } from 'react'
 import { css } from '@kuma-ui/core'
-import { usePrefectures } from '../../../hooks/usePrefectures'
 
 import { Toggle } from '../../ui/Toggle'
+import type { Prefecture } from '../../../model/prefecture'
 
-export function SelectPrefectureForm() {
-  const { prefectures } = usePrefectures()
-  const [_selectedPrefectures, setSelectedPrefectures] = useState<number[]>()
+interface Props {
+  handleSelectPrefecture: (pressed: boolean) => (selectPrefecture: Prefecture) => void
+  prefectures: Prefecture[]
+}
 
-  const handleSelectPrefecture = useCallback((prefCode: number) => {
-    setSelectedPrefectures(prev => prev?.includes(prefCode) ? prev.filter(p => p !== prefCode) : [...(prev || []), prefCode])
-  }, [])
-
-  if (!prefectures)
-    return null
-
+export const SelectPrefectureForm: FC<Props> = ({ handleSelectPrefecture, prefectures }) => {
   return (
     <form>
       <fieldset>
@@ -38,7 +33,7 @@ export function SelectPrefectureForm() {
               width:fit-content;
               height:fit-content;
             `}
-              onClick={() => handleSelectPrefecture(prefecture.prefCode)}
+              onPressedChange={(pressed: boolean) => handleSelectPrefecture(pressed)(prefecture)}
             >
               {prefecture.prefName}
             </Toggle>
