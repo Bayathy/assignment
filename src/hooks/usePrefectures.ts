@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import type { Prefecture } from '../model/prefecture'
+import type { PrefectureResponse } from '../model/prefecture'
 import { fetcher } from '../lib/fetcher'
 
 /**
@@ -8,7 +8,15 @@ import { fetcher } from '../lib/fetcher'
  */
 
 export function usePrefectures() {
-  const { data, isLoading, error } = useSWR<Prefecture>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
+  const { data, isLoading, error } = useSWR<PrefectureResponse>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
+
+  if (data?.result === undefined) {
+    return {
+      prefectures: [],
+      isLoading,
+      error,
+    }
+  }
 
   const prefectures = data?.result
 
