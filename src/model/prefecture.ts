@@ -1,7 +1,9 @@
 export interface Prefecture {
+  prefCode: number
+  prefName: string
+}
+
+export interface PrefectureResponse {
   message: string
-  result: {
-    prefCode: number
-    prefName: string
-  }[]
+  result: Prefecture[]
 }

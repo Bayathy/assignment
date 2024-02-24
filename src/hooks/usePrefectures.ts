@@ -1,6 +1,7 @@
 import useSWR from 'swr'
-import type { Prefecture } from '../model/prefecture'
+import type { PrefectureResponse } from '../model/prefecture'
 import { fetcher } from '../lib/fetcher'
+import type { HandledError } from '../lib/errorHandler'
 
 /**
  * 都道府県一覧を取得する
@@ -8,9 +9,17 @@ import { fetcher } from '../lib/fetcher'
  */
 
 export function usePrefectures() {
-  const { data, isLoading, error } = useSWR<Prefecture>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
+  const { data, isLoading, error } = useSWR<PrefectureResponse, HandledError>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
 
-  const prefectures = data?.result
+  if (data?.result === undefined) {
+    return {
+      prefectures: undefined,
+      isLoading,
+      error,
+    }
+  }
+
+  const prefectures = data.result
 
   return {
     prefectures,
