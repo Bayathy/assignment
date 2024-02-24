@@ -1,17 +1,19 @@
 import { expect, it, vi } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
 import { rest } from 'msw'
+import { act } from '@testing-library/react'
 import { SwrTestProvider } from '../components/provider/SWRTestProvider'
 import { server } from '../mocks/server'
 import { population } from '../mocks/data/population'
-import { usePopulation } from './usePopulation'
+import { usePopulations } from './usePopulations'
 
 it('ローディング状態のテスト', async () => {
-  const { result } = renderHook(() => usePopulation(1), { wrapper: SwrTestProvider })
+  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
   expect(result.current).toEqual({
-    population: undefined,
+    populations: undefined,
+    isLoding: true,
     error: undefined,
-    isLoading: true,
+    fetchPopulation: expect.any(Function),
   })
 })
 
@@ -20,18 +22,33 @@ it('データ取得後のテスト', async () => {
     rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (_req, res, ctx) => {
       return res(
         ctx.status(200),
-        ctx.json(population[1]),
+        ctx.json(population[0]),
       )
     }),
   )
 
-  const { result, waitForNextUpdate } = renderHook(() => usePopulation(1), { wrapper: SwrTestProvider })
-  await waitForNextUpdate()
+  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
+  result.current.fetchPopulation([{ prefCode: 1, prefName: '北海道' }])
+
+  await act(async () => {
+    await result.current.fetchPopulation([
+      { prefCode: 1, prefName: '北海道' },
+      { prefCode: 2, prefName: '青森県' },
+    ])
+  })
 
   expect(result.current).toEqual({
-    population: population[1].result,
+    populations: [{
+      prefName: '北海道',
+      data: population[0].result.data,
+    }, {
+      prefName: '青森県',
+      data: population[0].result.data,
+
+    }],
+    isLoding: false,
     error: undefined,
-    isLoading: false,
+    fetchPopulation: expect.any(Function),
   })
 })
 
@@ -51,13 +68,18 @@ it('エラー発生時のテスト', async () => {
     }
   })
 
-  const { result, waitForNextUpdate } = renderHook(() => usePopulation(1), { wrapper: SwrTestProvider })
+  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
 
-  await waitForNextUpdate()
+  await act(async () => {
+    await result.current.fetchPopulation([
+      { prefCode: 1, prefName: '北海道' },
+      { prefCode: 2, prefName: '青森県' },
+    ])
+  })
 
   expect(result.current).toEqual({
-    population: undefined,
+    populations: undefined,
     error: new Error('test expect error'),
-    isLoading: false,
+    fetchPopulation: expect.any(Function),
   })
 })

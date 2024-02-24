@@ -9,7 +9,7 @@ import { usePrefectures } from './usePrefectures'
 it('ローディング状態のテスト', async () => {
   const { result } = renderHook(() => usePrefectures(), { wrapper: SwrTestProvider })
   expect(result.current).toEqual({
-    data: undefined,
+    prefectures: undefined,
     error: undefined,
     isLoading: true,
   })
@@ -58,7 +58,6 @@ it('エラー発生時のテスト', async () => {
 
   expect(result.current).toEqual({
     data: undefined,
-
     error: new Error('test expect error'),
     isLoading: false,
   })
