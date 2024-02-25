@@ -12,10 +12,11 @@ import {
 import { generateRandomColor } from '../../../lib/generateRandomColor'
 import type { Prefecture } from '../../../model/prefecture'
 import { usePopulations } from '../../../hooks/usePopulations'
+import type { PopulationTyoes } from '../../../model/population'
 
 interface Props {
   prefecturesList: Prefecture[]
-  mode: 'total' | 'juniors' | 'working' | 'old'
+  mode: PopulationTyoes
 }
 
 export const Chart: FC<Props> = ({ mode, prefecturesList }) => {
@@ -45,17 +46,7 @@ export const Chart: FC<Props> = ({ mode, prefecturesList }) => {
               dataKey="value"
               stroke={generateRandomColor()}
               name={population.prefName}
-              data={
-                  population.data[
-                    mode === 'total'
-                      ? 0
-                      : mode === 'juniors'
-                        ? 1
-                        : mode === 'working'
-                          ? 2
-                          : 3
-                  ].data
-                }
+              data={population.data[mode]}
             />
           )
         })}

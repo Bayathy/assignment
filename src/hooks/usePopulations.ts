@@ -18,9 +18,30 @@ export function usePopulations(prefectureList: Prefecture[]) {
         return fetcher<PopulationResponse>(
           `${import.meta.env.VITE_API_URL}/population/composition/perYear?prefCode=${prefecture.prefCode}`,
         ).then((data) => {
+          const filterResult = data.result.data.map((data) => {
+            return {
+              mode:
+                data.label === '総人口'
+                  ? 'totals'
+                  : data.label === '年少人口'
+                    ? 'juniors'
+                    : data.label === '生産年齢人口'
+                      ? 'working'
+                      : 'old',
+              data: data.data,
+            }
+          })
+
           return {
             prefName: prefecture.prefName,
-            data: data.result.data,
+            data: {
+              total: filterResult.find(data => data.mode === 'totals')?.data,
+              juniors: filterResult.find(data => data.mode === 'juniors')
+                ?.data,
+              working: filterResult.find(data => data.mode === 'working')
+                ?.data,
+              old: filterResult.find(data => data.mode === 'old')?.data,
+            },
           }
         })
       },

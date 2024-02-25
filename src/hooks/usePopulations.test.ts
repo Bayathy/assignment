@@ -48,11 +48,21 @@ it('データ取得後のテスト', async () => {
     populations: [
       {
         prefName: '北海道',
-        data: population[0].result.data,
+        data: {
+          total: population[0].result.data[0].data,
+          juniors: population[0].result.data[1].data,
+          working: population[0].result.data[2].data,
+          old: population[0].result.data[3].data,
+        },
       },
       {
         prefName: '青森県',
-        data: population[1].result.data,
+        data: {
+          total: population[1].result.data[0].data,
+          juniors: population[1].result.data[1].data,
+          working: population[1].result.data[2].data,
+          old: population[1].result.data[3].data,
+        },
       },
     ],
     isLoading: false,
