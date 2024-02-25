@@ -11,27 +11,31 @@ import { fetcher } from '../lib/fetcher'
  */
 
 export function usePopulations(prefectureList: Prefecture[]) {
-  const populationQueries = useQueries<PopulationResponse[]>(
-    {
-      queries: prefectureList.map(prefecture => ({
-        queryKey: ['population', prefecture.prefCode],
-        queryFn: () => {
-          return fetcher<PopulationResponse>(`${import.meta.env.VITE_API_URL}/population/composition/perYear?prefCode=${prefecture.prefCode}`).then((data) => {
-            return {
-              prefName: prefecture.prefName,
-              data: data.result.data,
-            }
-          })
-        },
-      })),
-    },
-  )
+  const populationQueries = useQueries<PopulationResponse[]>({
+    queries: prefectureList.map(prefecture => ({
+      queryKey: ['population', prefecture.prefCode],
+      queryFn: () => {
+        return fetcher<PopulationResponse>(
+          `${import.meta.env.VITE_API_URL}/population/composition/perYear?prefCode=${prefecture.prefCode}`,
+        ).then((data) => {
+          return {
+            prefName: prefecture.prefName,
+            data: data.result.data,
+          }
+        })
+      },
+    })),
+  })
 
   const err = populationQueries.find(query => query.error)?.error
+  const isLoading = populationQueries.some(query => query.isLoading)
 
   return {
-    populations: !err ? populationQueries.map(query => query.data as Population) : undefined,
-    isLoading: populationQueries.some(query => query.isLoading),
+    populations:
+      !err && !isLoading
+        ? populationQueries.map(query => query.data as Population)
+        : [],
+    isLoading,
     error: err ?? null,
   }
 }

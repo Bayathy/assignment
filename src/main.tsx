@@ -1,7 +1,9 @@
+// 一番上に置かないとこのスタイルでbuttonのバックグラウンドが上書きされる
+import '@unocss/reset/tailwind.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import '@unocss/reset/tailwind.css'
 import './global.css'
 
 import { setupMockWorker } from './mocks/browser.ts'

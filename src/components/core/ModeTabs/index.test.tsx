@@ -8,7 +8,14 @@ beforeEach(() => {
   const workingGraph = <div>Working Graph</div>
   const oldGraph = <div>Old Graph</div>
 
-  render(<ModeTabs totalGraph={totalGraph} juniorsGraph={juniorsGraph} workingGraph={workingGraph} oldGraph={oldGraph} />)
+  render(
+    <ModeTabs
+      totalGraph={totalGraph}
+      juniorsGraph={juniorsGraph}
+      workingGraph={workingGraph}
+      oldGraph={oldGraph}
+    />,
+  )
 })
 
 it('タブのトリガーが表示される', () => {
@@ -19,7 +26,8 @@ it('タブのトリガーが表示される', () => {
 })
 
 it('タブのコンテンツが切り替えできるされる', async () => {
-  const [_totalTrigger, juniorTrigger, _workingTrigger, _oldTrigger] = screen.getAllByRole('tab')
+  const [_totalTrigger, juniorTrigger, _workingTrigger, _oldTrigger]
+    = screen.getAllByRole('tab')
 
   await fireEvent.mouseDown(juniorTrigger)
 

@@ -7,7 +7,9 @@ import { TestQueryProvider } from '../components/provider/TestQueryProvider'
 import { usePrefectures } from './usePrefectures'
 
 it('ローディング状態のテスト', async () => {
-  const { result } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
+  const { result } = renderHook(() => usePrefectures(), {
+    wrapper: TestQueryProvider,
+  })
   expect(result.current).toEqual({
     prefectures: [],
     error: null,
@@ -17,15 +19,17 @@ it('ローディング状態のテスト', async () => {
 
 it('データ取得後のテスト', async () => {
   server.use(
-    rest.get(`${import.meta.env.VITE_API_URL}/prefectures`, (_req, res, ctx) => {
-      return res(
-        ctx.status(200),
-        ctx.json(prefectures),
-      )
-    }),
+    rest.get(
+      `${import.meta.env.VITE_API_URL}/prefectures`,
+      (_req, res, ctx) => {
+        return res(ctx.status(200), ctx.json(prefectures))
+      },
+    ),
   )
 
-  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
+  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), {
+    wrapper: TestQueryProvider,
+  })
 
   await waitForNextUpdate()
 
@@ -38,12 +42,19 @@ it('データ取得後のテスト', async () => {
 
 it('エラー発生時のテスト', async () => {
   server.use(
-    rest.get(`${import.meta.env.VITE_API_URL}/prefectures`, (_req, res, ctx) => {
-      return res(
-        ctx.status(403),
-        ctx.json({ statusCode: '403', message: 'Forbidden.', description: '' }),
-      )
-    }),
+    rest.get(
+      `${import.meta.env.VITE_API_URL}/prefectures`,
+      (_req, res, ctx) => {
+        return res(
+          ctx.status(403),
+          ctx.json({
+            statusCode: '403',
+            message: 'Forbidden.',
+            description: '',
+          }),
+        )
+      },
+    ),
   )
 
   vi.mock('../lib/errorHandler', () => {
@@ -52,7 +63,9 @@ it('エラー発生時のテスト', async () => {
     }
   })
 
-  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
+  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), {
+    wrapper: TestQueryProvider,
+  })
 
   await waitForNextUpdate()
 
