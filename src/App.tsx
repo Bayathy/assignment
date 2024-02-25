@@ -72,18 +72,21 @@ function App() {
             />
             ))}
         {selectedPrefectures?.length !== 0
-          ? ((
+          ? (
             <ModeTabs
-              totalGraph={<Chart mode="total" prefecturesList={selectedPrefectures} />}
+              totalGraph={
+                <Chart mode="total" prefecturesList={selectedPrefectures} />
+            }
               juniorsGraph={
                 <Chart mode="juniors" prefecturesList={selectedPrefectures} />
-              }
+            }
               workingGraph={
                 <Chart mode="working" prefecturesList={selectedPrefectures} />
-              }
-              oldGraph={<Chart mode="old" prefecturesList={selectedPrefectures} />}
+            }
+              oldGraph={
+                <Chart mode="old" prefecturesList={selectedPrefectures} />
+            }
             />
-            )
             )
           : (
             <p

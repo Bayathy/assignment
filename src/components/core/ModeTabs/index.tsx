@@ -20,15 +20,16 @@ export const ModeTabs: FC<Props> = ({
   return (
     <form>
       <Tabs.Root defaultValue="total">
-        <Tabs.List className={css`
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 16px;
-          padding: 8px;
-          border-radius: 8px;
-          background-color: t("colors.primary");
-          margin-bottom: 16px;
-        `}
+        <Tabs.List
+          className={css`
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: t("colors.primary");
+            margin-bottom: 16px;
+          `}
         >
           <TabsTrigger value="total">全体</TabsTrigger>
           <TabsTrigger value="juniors">年少人口</TabsTrigger>
