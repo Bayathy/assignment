@@ -17,7 +17,8 @@ function App() {
   const [selectedPrefectures, setSelectedPrefectures] = useState<Prefecture[]>(
     [],
   )
-  const { populations, isLoading } = usePopulations(selectedPrefectures)
+  // const { populations, isLoading } = usePopulations(selectedPrefectures)
+  usePopulations(selectedPrefectures)
 
   const toggleSelectPrefecture
     = (pressed: boolean) => (selectPrefecture: Prefecture) => {
@@ -70,20 +71,19 @@ function App() {
               handleSelectPrefecture={toggleSelectPrefecture}
             />
             ))}
-        {populations?.length !== 0
-          ? (
-              !isLoading && (
-                <ModeTabs
-                  totalGraph={<Chart mode="total" populationList={populations} />}
-                  juniorsGraph={
-                    <Chart mode="juniors" populationList={populations} />
+        {selectedPrefectures?.length !== 0
+          ? ((
+            <ModeTabs
+              totalGraph={<Chart mode="total" prefecturesList={selectedPrefectures} />}
+              juniorsGraph={
+                <Chart mode="juniors" prefecturesList={selectedPrefectures} />
               }
-                  workingGraph={
-                    <Chart mode="working" populationList={populations} />
+              workingGraph={
+                <Chart mode="working" prefecturesList={selectedPrefectures} />
               }
-                  oldGraph={<Chart mode="old" populationList={populations} />}
-                />
-              )
+              oldGraph={<Chart mode="old" prefecturesList={selectedPrefectures} />}
+            />
+            )
             )
           : (
             <p
