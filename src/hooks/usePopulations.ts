@@ -1,60 +1,37 @@
-import useSWR from 'swr'
-
-import { useCallback } from 'react'
-import type { Population } from '../model/population'
+import { useQueries } from '@tanstack/react-query'
+import type { Population, PopulationResponse } from '../model/population'
 
 import type { Prefecture } from '../model/prefecture'
-import type { HandledError } from '../lib/errorHandler'
 import { fetcher } from '../lib/fetcher'
 
-async function requestHandler(prefectureList: Prefecture[]) {
-  const requests = prefectureList.map((prefecture) => {
-    return async () => {
-      try {
-        const response = await fetcher(`${import.meta.env.VITE_API_URL}/population/composition/perYear?prefCode=${prefecture.prefCode}`)
-        return {
-          prefName: prefecture.prefName,
-          data: response.result.data,
-        } as Population
-      }
-      catch (error) {
-        console.error(error)
-        throw error
-      }
-    }
-  })
-
-  try {
-    const response = await Promise.all(requests.map(request => request()))
-    return response
-  }
-  catch (error) {
-    console.error(error)
-    throw error // Promise.all 内でのエラーハンドリング
-  }
-}
 /**
- * prefCodeに対応する都道府県の人口を取得する
- * @param prefCode
+ * 都道府県にに対応する人口を取得する
+ * @param prefectureList
  * @returns
  */
 
-export function usePopulations() {
-  const { data, error, mutate } = useSWR<Population[], HandledError>(`${import.meta.env.VITE_API_URL}/population/composition/perYear`)
-  const fetchPopulation = useCallback((prefectureList: Prefecture[]) => {
-    mutate(async () => {
-      return await requestHandler(prefectureList)
-    }).catch((error) => {
-      console.error(error)
-      throw error
+export function usePopulations(prefectureList: Prefecture[]) {
+  const populationQueries = useQueries<PopulationResponse[]>(
+    {
+      queries: prefectureList.map(prefecture => ({
+        queryKey: ['population', prefecture.prefCode],
+        queryFn: () => {
+          return fetcher<PopulationResponse>(`${import.meta.env.VITE_API_URL}/population/composition/perYear?prefCode=${prefecture.prefCode}`).then((data) => {
+            return {
+              prefName: prefecture.prefName,
+              data: data.result.data,
+            }
+          })
+        },
+      })),
     },
-    )
-  }, [mutate])
+  )
+
+  const err = populationQueries.find(query => query.error)?.error
 
   return {
-    populations: data,
-    isLoding: !data && !error,
-    error,
-    fetchPopulation,
+    populations: !err ? populationQueries.map(query => query.data as Population) : undefined,
+    isLoading: populationQueries.some(query => query.isLoading),
+    error: err ?? null,
   }
 }

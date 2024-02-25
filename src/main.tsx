@@ -5,14 +5,14 @@ import '@unocss/reset/tailwind.css'
 import './global.css'
 
 import { setupMockWorker } from './mocks/browser.ts'
-import { SWRProvider } from './components/provider/SWRProvider/index.tsx'
+import { QueryProvider } from './components/provider/QueryProvider'
 
 setupMockWorker().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <SWRProvider>
+      <QueryProvider>
         <App />
-      </SWRProvider>
+      </QueryProvider>
     </React.StrictMode>,
   )
 })
