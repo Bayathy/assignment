@@ -9,7 +9,12 @@ interface Props {
   oldGraph: React.ReactNode
 }
 
-export const ModeTabs: FC<Props> = ({ totalGraph, juniorsGraph, workingGraph, oldGraph }) => {
+export const ModeTabs: FC<Props> = ({
+  totalGraph,
+  juniorsGraph,
+  workingGraph,
+  oldGraph,
+}) => {
   return (
     <form>
       <Tabs.Root defaultValue="total">

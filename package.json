@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
-    "format": "prettier ./src --write .",
+    "format": "prettier src --write .",
     "preview": "vite preview",
     "test": "vitest --passWithNoTests",
     "msw": "msw init public --save"

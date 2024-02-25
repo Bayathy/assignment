@@ -11,7 +11,9 @@ export function usePrefectures() {
   const { data, error, isLoading } = useQuery<PrefectureResponse>({
     queryKey: ['prefectures'],
     queryFn: async () => {
-      return await fetcher<PrefectureResponse>(`${import.meta.env.VITE_API_URL}/prefectures`)
+      return await fetcher<PrefectureResponse>(
+        `${import.meta.env.VITE_API_URL}/prefectures`,
+      )
     },
   })
 

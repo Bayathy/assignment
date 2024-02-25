@@ -12,10 +12,12 @@ const testPrefectureList = [
 ]
 
 it('ローディング状態', async () => {
-  const { result } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
+  const { result } = renderHook(() => usePopulations(testPrefectureList), {
+    wrapper: TestQueryProvider,
+  })
 
   expect(result.current).toEqual({
-    populations: [undefined, undefined],
+    populations: [],
     isLoading: true,
     error: null,
   })
@@ -23,19 +25,22 @@ it('ローディング状態', async () => {
 
 it('データ取得後のテスト', async () => {
   server.use(
-    rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (req, res, ctx) => {
-      const url = new URL(req.url)
+    rest.get(
+      `${import.meta.env.VITE_API_URL}/population/composition/perYear`,
+      (req, res, ctx) => {
+        const url = new URL(req.url)
 
-      const prefCode = Number(url.searchParams.get('prefCode'))
+        const prefCode = Number(url.searchParams.get('prefCode'))
 
-      return res(
-        ctx.status(200),
-        ctx.json(population[prefCode - 1]),
-      )
-    }),
+        return res(ctx.status(200), ctx.json(population[prefCode - 1]))
+      },
+    ),
   )
 
-  const { result, waitForNextUpdate } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
+  const { result, waitForNextUpdate } = renderHook(
+    () => usePopulations(testPrefectureList),
+    { wrapper: TestQueryProvider },
+  )
 
   await waitForNextUpdate()
 
@@ -57,12 +62,19 @@ it('データ取得後のテスト', async () => {
 
 it('エラー発生時のテスト', async () => {
   server.use(
-    rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (_req, res, ctx) => {
-      return res(
-        ctx.status(403),
-        ctx.json({ statusCode: '403', message: 'Forbidden.', description: '' }),
-      )
-    }),
+    rest.get(
+      `${import.meta.env.VITE_API_URL}/population/composition/perYear`,
+      (_req, res, ctx) => {
+        return res(
+          ctx.status(403),
+          ctx.json({
+            statusCode: '403',
+            message: 'Forbidden.',
+            description: '',
+          }),
+        )
+      },
+    ),
   )
 
   vi.mock('../lib/errorHandler', () => {
@@ -71,12 +83,15 @@ it('エラー発生時のテスト', async () => {
     }
   })
 
-  const { result, waitForNextUpdate } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
+  const { result, waitForNextUpdate } = renderHook(
+    () => usePopulations(testPrefectureList),
+    { wrapper: TestQueryProvider },
+  )
 
   await waitForNextUpdate()
 
   expect(result.current).toEqual({
-    data: undefined,
+    populations: [],
     isLoading: false,
     error: new Error('test Error'),
   })

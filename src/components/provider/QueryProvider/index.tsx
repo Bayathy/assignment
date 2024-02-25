@@ -1,5 +1,9 @@
 import { type FC, type PropsWithChildren, useCallback, useState } from 'react'
-import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { AlertDialog } from '../../ui/AlertDialog'
 
 /**
@@ -18,18 +22,23 @@ export const QueryProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [])
 
   return (
-    <QueryClientProvider client={
-      new QueryClient({
-        queryCache: new QueryCache({
-          onError: (err: Error) => {
-            setErrorMessage(err.message)
-            handleOpenChange(true)
-          },
-        }),
-      })
-    }
+    <QueryClientProvider
+      client={
+        new QueryClient({
+          queryCache: new QueryCache({
+            onError: (err: Error) => {
+              setErrorMessage(err.message)
+              handleOpenChange(true)
+            },
+          }),
+        })
+      }
     >
-      <AlertDialog onOpenChange={handleOpenChange} open={open} description={errorMessage} />
+      <AlertDialog
+        onOpenChange={handleOpenChange}
+        open={open}
+        description={errorMessage}
+      />
       {children}
     </QueryClientProvider>
   )

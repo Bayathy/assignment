@@ -8,16 +8,21 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
  * @returns
  */
 
-export const TestQueryProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export const TestQueryProvider: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
   return (
-    <QueryClientProvider client={new QueryClient({
-      defaultOptions: {
-        queries: {
-          retryDelay: 1,
-          retry: 0,
-        },
-      },
-    })}
+    <QueryClientProvider
+      client={
+        new QueryClient({
+          defaultOptions: {
+            queries: {
+              retryDelay: 1,
+              retry: 0,
+            },
+          },
+        })
+      }
     >
       {children}
     </QueryClientProvider>

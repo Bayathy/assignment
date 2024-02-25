@@ -11,32 +11,29 @@ export const handlers = [
       )
     }
 
-    return res(
-      ctx.status(200),
-      ctx.json(prefectures),
-    )
+    return res(ctx.status(200), ctx.json(prefectures))
   }),
 
-  rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (req, res, ctx) => {
-    if (!req.headers.has('X-API-KEY')) {
-      return res(
-        ctx.status(200),
-        ctx.json({ statusCode: '403', message: 'Forbidden.', description: '' }),
-      )
-    }
+  rest.get(
+    `${import.meta.env.VITE_API_URL}/population/composition/perYear`,
+    (req, res, ctx) => {
+      if (!req.headers.has('X-API-KEY')) {
+        return res(
+          ctx.status(200),
+          ctx.json({
+            statusCode: '403',
+            message: 'Forbidden.',
+            description: '',
+          }),
+        )
+      }
 
-    const prefCode = req.url.searchParams.get('prefCode')
+      const prefCode = req.url.searchParams.get('prefCode')
 
-    if (population.length < Number(prefCode)) {
-      return res(
-        ctx.status(200),
-        ctx.json(population[0]),
-      )
-    }
+      if (population.length < Number(prefCode))
+        return res(ctx.status(200), ctx.json(population[0]))
 
-    return res(
-      ctx.status(200),
-      ctx.json(population[Number(prefCode)]),
-    )
-  }),
+      return res(ctx.status(200), ctx.json(population[Number(prefCode)]))
+    },
+  ),
 ]

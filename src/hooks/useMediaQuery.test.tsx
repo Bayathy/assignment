@@ -16,6 +16,8 @@ it('指定したメディアクエリにマッチするかどうかを返す', (
     <div>{children}</div>
   )
 
-  const { result } = renderHook(() => useMediaQuery('(max-width: 768px)'), { wrapper })
+  const { result } = renderHook(() => useMediaQuery('(max-width: 768px)'), {
+    wrapper,
+  })
   expect(result.current).toBe(true)
 })
