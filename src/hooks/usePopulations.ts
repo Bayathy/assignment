@@ -6,7 +6,7 @@ import { fetcher } from '../lib/fetcher'
 
 /**
  * 都道府県にに対応する人口を取得する
- * @param prefectureLists
+ * @param prefectureList
  * @returns
  */
 
