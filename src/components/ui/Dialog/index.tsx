@@ -51,16 +51,20 @@ export const Dialog: React.FC<Props> = ({ triggerText, children }) => {
         >
           <div
             className={css`
+              display: grid;
+            `}
+          >
+            <div
+              className={css`
                 display: flex;
                 justify-content: flex-end;
-                height: 10%;
                 padding: 8px;
               `}
-          >
-            <RadixDialog.Close asChild>
-              <button
-                aria-label="ダイアログを閉じる"
-                className={css`
+            >
+              <RadixDialog.Close asChild>
+                <button
+                  aria-label="ダイアログを閉じる"
+                  className={css`
                     padding: 8px;
                     color: white;
                     border: none;
@@ -71,29 +75,29 @@ export const Dialog: React.FC<Props> = ({ triggerText, children }) => {
                       outline: 2px solid t("colors.secondary");
                     }
                   `}
-              >
-                閉じる
-              </button>
-            </RadixDialog.Close>
-          </div>
-          <RadixScrollArea.Root
-            className={css`
+                >
+                  閉じる
+                </button>
+              </RadixDialog.Close>
+            </div>
+            <RadixScrollArea.Root
+              className={css`
                 height: 100%;
                 width: 100%;
                 overflow: hidden;
               `}
-          >
-            <RadixScrollArea.Viewport
-              className={css`
+            >
+              <RadixScrollArea.Viewport
+                className={css`
                   width: inherit;
                   height: 90%;
                   padding: 16px;
                 `}
-            >
-              {children}
-            </RadixScrollArea.Viewport>
-            <RadixScrollArea.Scrollbar
-              className={css`
+              >
+                {children}
+              </RadixScrollArea.Viewport>
+              <RadixScrollArea.Scrollbar
+                className={css`
                   display: flex;
                   user-select: none;
                   padding: 2px;
@@ -104,10 +108,10 @@ export const Dialog: React.FC<Props> = ({ triggerText, children }) => {
                     height: 12px;
                   }
                 `}
-              orientation="vertical"
-            >
-              <RadixScrollArea.Thumb
-                className={css`
+                orientation="vertical"
+              >
+                <RadixScrollArea.Thumb
+                  className={css`
                     flex: 1;
                     background-color: white;
                     border-radius: 16px;
@@ -124,10 +128,10 @@ export const Dialog: React.FC<Props> = ({ triggerText, children }) => {
                       min-width: 16px;
                     }
                   `}
-              />
-            </RadixScrollArea.Scrollbar>
-          </RadixScrollArea.Root>
-
+                />
+              </RadixScrollArea.Scrollbar>
+            </RadixScrollArea.Root>
+          </div>
         </RadixDialog.Content>
       </RadixDialog.Portal>
     </RadixDialog.Root>

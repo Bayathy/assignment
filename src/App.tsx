@@ -70,14 +70,32 @@ function App() {
               handleSelectPrefecture={toggleSelectPrefecture}
             />
             ))}
-        {populations && !isLoading && (
-          <ModeTabs
-            totalGraph={<Chart mode="total" populationList={populations} />}
-            juniorsGraph={<Chart mode="juniors" populationList={populations} />}
-            workingGraph={<Chart mode="working" populationList={populations} />}
-            oldGraph={<Chart mode="old" populationList={populations} />}
-          />
-        )}
+        {populations?.length !== 0
+          ? (
+              !isLoading && (
+                <ModeTabs
+                  totalGraph={<Chart mode="total" populationList={populations} />}
+                  juniorsGraph={
+                    <Chart mode="juniors" populationList={populations} />
+              }
+                  workingGraph={
+                    <Chart mode="working" populationList={populations} />
+              }
+                  oldGraph={<Chart mode="old" populationList={populations} />}
+                />
+              )
+            )
+          : (
+            <p
+              className={css`
+              margin-top: 16px;
+              font-size: 1.2rem;
+              text-align: center;
+            `}
+            >
+              都道府県を選択してください
+            </p>
+            )}
       </main>
     </div>
   )
