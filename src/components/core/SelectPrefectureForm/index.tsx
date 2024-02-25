@@ -22,7 +22,8 @@ export const SelectPrefectureForm: FC<Props> = ({ handleSelectPrefecture, prefec
         <div className={css`
           margin-top: 16px;
           display: grid;
-          gap: 8px;
+          gap: 16px;
+          place-items: center;
           grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       `}
         >
@@ -30,7 +31,7 @@ export const SelectPrefectureForm: FC<Props> = ({ handleSelectPrefecture, prefec
             <Toggle
               key={prefecture.prefName}
               className={css`
-              width:fit-content;
+              width:100%;
               height:fit-content;
             `}
               onPressedChange={(pressed: boolean) => handleSelectPrefecture(pressed)(prefecture)}
