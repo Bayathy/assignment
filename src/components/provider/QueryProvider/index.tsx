@@ -22,7 +22,6 @@ export const QueryProvider: FC<PropsWithChildren> = ({ children }) => {
       new QueryClient({
         queryCache: new QueryCache({
           onError: (err: Error) => {
-            console.error(err)
             setErrorMessage(err.message)
             handleOpenChange(true)
           },

@@ -15,7 +15,7 @@ it('ローディング状態', async () => {
   const { result } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
 
   expect(result.current).toEqual({
-    data: [undefined, undefined],
+    populations: [undefined, undefined],
     isLoading: true,
     error: null,
   })
@@ -40,15 +40,14 @@ it('データ取得後のテスト', async () => {
   await waitForNextUpdate()
 
   expect(result.current).toEqual({
-    data: [
+    populations: [
       {
         prefName: '北海道',
-        population: population[0].result.data,
+        data: population[0].result.data,
       },
       {
         prefName: '青森県',
-        population: population[1].result.data,
-
+        data: population[1].result.data,
       },
     ],
     isLoading: false,
