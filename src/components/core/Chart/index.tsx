@@ -1,6 +1,7 @@
 import type { FC } from 'react'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import type { Population } from '../../../model/population'
+import { generateRandomColor } from '../../../lib/generateRandomColor'
 
 interface Props {
   populationList: Population[]
@@ -22,6 +23,7 @@ export const Chart: FC<Props> = ({ mode, populationList }) => {
               key={index}
               type="monotone"
               dataKey="value"
+              stroke={generateRandomColor()}
               name={population.prefName}
               data={population.data[mode === 'total' ? 0 : mode === 'juniors' ? 1 : mode === 'working' ? 2 : 3].data}
             />
