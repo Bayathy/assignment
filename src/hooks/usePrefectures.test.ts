@@ -1,16 +1,16 @@
 import { expect, it, vi } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
 import { rest } from 'msw'
-import { SwrTestProvider } from '../components/provider/SWRTestProvider'
 import { prefectures } from '../mocks/data/prefectures'
 import { server } from '../mocks/server'
+import { TestQueryProvider } from '../components/provider/TestQueryProvider'
 import { usePrefectures } from './usePrefectures'
 
 it('ローディング状態のテスト', async () => {
-  const { result } = renderHook(() => usePrefectures(), { wrapper: SwrTestProvider })
+  const { result } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
   expect(result.current).toEqual({
     prefectures: undefined,
-    error: undefined,
+    error: null,
     isLoading: true,
   })
 })
@@ -25,13 +25,13 @@ it('データ取得後のテスト', async () => {
     }),
   )
 
-  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: SwrTestProvider })
+  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
 
   await waitForNextUpdate()
 
   expect(result.current).toEqual({
     prefectures: prefectures.result,
-    error: undefined,
+    error: null,
     isLoading: false,
   })
 })
@@ -40,7 +40,7 @@ it('エラー発生時のテスト', async () => {
   server.use(
     rest.get(`${import.meta.env.VITE_API_URL}/prefectures`, (_req, res, ctx) => {
       return res(
-        ctx.status(200),
+        ctx.status(403),
         ctx.json({ statusCode: '403', message: 'Forbidden.', description: '' }),
       )
     }),
@@ -52,12 +52,12 @@ it('エラー発生時のテスト', async () => {
     }
   })
 
-  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: SwrTestProvider })
+  const { result, waitForNextUpdate } = renderHook(() => usePrefectures(), { wrapper: TestQueryProvider })
 
   await waitForNextUpdate()
 
   expect(result.current).toEqual({
-    data: undefined,
+    prefectures: undefined,
     error: new Error('test expect error'),
     isLoading: false,
   })

@@ -1,54 +1,58 @@
-import { expect, it, vi } from 'vitest'
+import { it } from 'vitest'
 import { renderHook } from '@testing-library/react-hooks'
 import { rest } from 'msw'
-import { act } from '@testing-library/react'
-import { SwrTestProvider } from '../components/provider/SWRTestProvider'
+import { TestQueryProvider } from '../components/provider/TestQueryProvider'
 import { server } from '../mocks/server'
 import { population } from '../mocks/data/population'
 import { usePopulations } from './usePopulations'
 
-it('ローディング状態のテスト', async () => {
-  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
+const testPrefectureList = [
+  { prefCode: 1, prefName: '北海道' },
+  { prefCode: 2, prefName: '青森県' },
+]
+
+it('ローディング状態', async () => {
+  const { result } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
+
   expect(result.current).toEqual({
-    populations: undefined,
-    isLoding: true,
-    error: undefined,
-    fetchPopulation: expect.any(Function),
+    data: [undefined, undefined],
+    isLoading: true,
+    error: null,
   })
 })
 
 it('データ取得後のテスト', async () => {
   server.use(
-    rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (_req, res, ctx) => {
+    rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (req, res, ctx) => {
+      const url = new URL(req.url)
+
+      const prefCode = Number(url.searchParams.get('prefCode'))
+
       return res(
         ctx.status(200),
-        ctx.json(population[0]),
+        ctx.json(population[prefCode - 1]),
       )
     }),
   )
 
-  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
-  result.current.fetchPopulation([{ prefCode: 1, prefName: '北海道' }])
+  const { result, waitForNextUpdate } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
 
-  await act(async () => {
-    await result.current.fetchPopulation([
-      { prefCode: 1, prefName: '北海道' },
-      { prefCode: 2, prefName: '青森県' },
-    ])
-  })
+  await waitForNextUpdate()
 
   expect(result.current).toEqual({
-    populations: [{
-      prefName: '北海道',
-      data: population[0].result.data,
-    }, {
-      prefName: '青森県',
-      data: population[0].result.data,
+    data: [
+      {
+        prefName: '北海道',
+        population: population[0].result.data,
+      },
+      {
+        prefName: '青森県',
+        population: population[1].result.data,
 
-    }],
-    isLoding: false,
-    error: undefined,
-    fetchPopulation: expect.any(Function),
+      },
+    ],
+    isLoading: false,
+    error: null,
   })
 })
 
@@ -56,7 +60,7 @@ it('エラー発生時のテスト', async () => {
   server.use(
     rest.get(`${import.meta.env.VITE_API_URL}/population/composition/perYear`, (_req, res, ctx) => {
       return res(
-        ctx.status(200),
+        ctx.status(403),
         ctx.json({ statusCode: '403', message: 'Forbidden.', description: '' }),
       )
     }),
@@ -64,22 +68,17 @@ it('エラー発生時のテスト', async () => {
 
   vi.mock('../lib/errorHandler', () => {
     return {
-      errorHandler: vi.fn().mockReturnValue(new Error('test expect error')),
+      errorHandler: vi.fn().mockReturnValue(new Error('test Error')),
     }
   })
 
-  const { result } = renderHook(() => usePopulations(), { wrapper: SwrTestProvider })
+  const { result, waitForNextUpdate } = renderHook(() => usePopulations(testPrefectureList), { wrapper: TestQueryProvider })
 
-  await act(async () => {
-    await result.current.fetchPopulation([
-      { prefCode: 1, prefName: '北海道' },
-      { prefCode: 2, prefName: '青森県' },
-    ])
-  })
+  await waitForNextUpdate()
 
   expect(result.current).toEqual({
-    populations: undefined,
-    error: new Error('test expect error'),
-    fetchPopulation: expect.any(Function),
+    data: undefined,
+    isLoading: false,
+    error: new Error('test Error'),
   })
 })

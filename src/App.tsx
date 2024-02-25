@@ -5,20 +5,19 @@ import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
 import { Header } from './components/ui/Header'
 import { ModeTabs } from './components/core/ModeTabs'
 import { usePrefectures } from './hooks/usePrefectures'
-import { usePopulations } from './hooks/usePopulations'
 import type { Prefecture } from './model/prefecture'
+import { usePopulations } from './hooks/usePopulations'
 
 function App() {
   const { prefectures } = usePrefectures()
   const [selectedPrefectures, setSelectedPrefectures] = useState<Prefecture[]>([])
-  const { fetchPopulation } = usePopulations()
+  const { populations, isLoading } = usePopulations(selectedPrefectures)
 
   const toggleSelectPrefecture = (pressed: boolean) =>
     (selectPrefecture: Prefecture) => {
       const newList = pressed ? [selectPrefecture, ...selectedPrefectures] : selectedPrefectures.filter(prefecture => prefecture.prefCode !== selectPrefecture.prefCode)
 
       setSelectedPrefectures(newList)
-      fetchPopulation(newList)
     }
 
   return (
@@ -48,7 +47,15 @@ function App() {
             handleSelectPrefecture={toggleSelectPrefecture}
           />
         )}
-        <ModeTabs totalGraph={<Chart mode="total" />} juniorsGraph={<Chart mode="juniors" />} workingGraph={<Chart mode="working" />} oldGraph={<Chart mode="old" />} />
+        { populations && !isLoading
+        && (
+          <ModeTabs
+            totalGraph={<Chart mode="total" populationList={populations} />}
+            juniorsGraph={<Chart mode="juniors" populationList={populations} />}
+            workingGraph={<Chart mode="working" populationList={populations} />}
+            oldGraph={<Chart mode="old" populationList={populations} />}
+          />
+        )}
       </main>
     </div>
   )

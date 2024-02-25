@@ -1,7 +1,6 @@
-import useSWR from 'swr'
-import type { PrefectureResponse } from '../model/prefecture'
+import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '../lib/fetcher'
-import type { HandledError } from '../lib/errorHandler'
+import type { PrefectureResponse } from '../model/prefecture'
 
 /**
  * 都道府県一覧を取得する
@@ -9,20 +8,15 @@ import type { HandledError } from '../lib/errorHandler'
  */
 
 export function usePrefectures() {
-  const { data, isLoading, error } = useSWR<PrefectureResponse, HandledError>(`${import.meta.env.VITE_API_URL}/prefectures`, fetcher)
-
-  if (data?.result === undefined) {
-    return {
-      prefectures: undefined,
-      isLoading,
-      error,
-    }
-  }
-
-  const prefectures = data.result
+  const { data, error, isLoading } = useQuery<PrefectureResponse>({
+    queryKey: ['prefectures'],
+    queryFn: async () => {
+      return await fetcher<PrefectureResponse>(`${import.meta.env.VITE_API_URL}/prefectures`)
+    },
+  })
 
   return {
-    prefectures,
+    prefectures: data?.result ?? [],
     isLoading,
     error,
   }
