@@ -29,11 +29,11 @@ export const SelectPrefectureForm: FC<Props> = ({
         </legend>
         <div
           className={css`
-            margin-top: 16px;
             display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             gap: 16px;
             place-items: center;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            margin-top: 16px;
           `}
         >
           {prefectures.map(prefecture => (

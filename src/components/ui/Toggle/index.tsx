@@ -9,21 +9,21 @@ export const Toggle: FC<ComponentPropsWithoutRef<typeof RadixToggle.Root>>
     <RadixToggle.Root
       className={clsx(
         css`
-          border-radius: 4px;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 4px;
+          border-radius: 4px;
           outline: 2px solid t("colors.primary");
 
           &:focus-visible {
-            outline-offset: 2px;
             outline-color: t("colors.secondary");
+            outline-offset: 2px;
           }
 
           &[data-state="on"] {
-            background-color: t("colors.primary");
             color: #fff;
+            background-color: t("colors.primary");
           }
         `,
         className,

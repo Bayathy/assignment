@@ -10,18 +10,19 @@ export const Checkbox: FC<ComponentPropsWithoutRef<typeof RadixCheckbox.Root>>
     <RadixCheckbox.Root
       className={clsx(
         css`
-          width: 28px;
-          height: 28px;
-          border-radius: 4px;
           display: flex;
           align-items: center;
           justify-content: center;
+          width: 28px;
+          height: 28px;
           cursor: pointer;
-          border: 2px solid red;
           background-color: #fff;
+          border: 2px solid red;
+          border-radius: 4px;
+
           [data-state="checked"] {
-            background-color: #000;
             color: #fff;
+            background-color: #000;
           }
 
           * {
