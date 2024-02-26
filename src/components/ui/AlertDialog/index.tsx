@@ -16,8 +16,8 @@ export const AlertDialog: FC<Props> = ({ open, description, onOpenChange }) => {
           className={css`
             position: fixed;
             inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            background-color: rgb(0 0 0 / 50%);
           `}
         />
         <RadixDialog.Content
@@ -25,21 +25,21 @@ export const AlertDialog: FC<Props> = ({ open, description, onOpenChange }) => {
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            z-index: 1001;
+            width: 100%;
+            max-width: 320px;
             padding: 16px;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 1001;
-            max-width: 320px;
-            width: 100%;
+            box-shadow: 0 0 10px rgb(0 0 0 / 50%);
+            transform: translate(-50%, -50%);
           `}
         >
           <RadixDialog.Title
             className={css`
-              font-size: 1.2rem;
               margin-bottom: 8px;
-              color: #ff0000;
+              font-size: 1.2rem;
+              color: #f00;
             `}
           >
             エラーが発生しました
@@ -63,11 +63,12 @@ export const AlertDialog: FC<Props> = ({ open, description, onOpenChange }) => {
                 aria-label="ダイアログを閉じる"
                 className={css`
                   padding: 8px;
-                  background-color: t("colors.primary");
                   color: white;
+                  cursor: pointer;
+                  background-color: t("colors.primary");
                   border: none;
                   border-radius: 4px;
-                  cursor: pointer;
+
                   &:focus-visible {
                     outline: 2px solid t("colors.secondary");
                   }

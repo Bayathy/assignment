@@ -10,10 +10,10 @@ export const TabsTrigger: FC<ComponentProps<typeof RaidxTabsTrigger>> = ({
       className={css`
         padding: 4px;
         color: #fff;
+        cursor: pointer;
         background-color: t("colors.primary");
         border: none;
         border-radius: 4px;
-        cursor: pointer;
         transition: background-color 0.2s;
 
         &[data-state="active"] {

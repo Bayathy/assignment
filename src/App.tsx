@@ -34,23 +34,23 @@ function App() {
   return (
     <div
       className={css`
-        min-height: 100vh;
         display: grid;
         grid-template-rows: auto 1fr;
         grid-template-columns: 100%;
         gap: 16px;
+        min-height: 100vh;
       `}
     >
       <Header />
       <main
         className={css`
-          max-width: 1200px;
-          width: 100%;
-          margin-inline: auto;
           display: flex;
           flex-direction: column;
           gap: 16px;
+          width: 100%;
+          max-width: 1200px;
           padding-inline: 16px;
+          margin-inline: auto;
         `}
       >
         {prefectures
