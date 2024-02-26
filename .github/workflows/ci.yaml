@@ -36,7 +36,7 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Lint
-        run: bun run lint
+        run: bun run lint | bun run lint:styles
 
   test:
     runs-on: ubuntu-latest
