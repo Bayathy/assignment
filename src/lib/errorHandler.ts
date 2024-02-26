@@ -1,3 +1,8 @@
+/**
+ * エラーハンドリング用の関数
+ * APIの使用がエラーであっても常に200を返すため、拡張している
+ */
+
 export interface HandledError extends Error {
   status: number
   message: string

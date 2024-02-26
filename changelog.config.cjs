@@ -1,0 +1,88 @@
+module.exports = {
+  disableEmoji: false,
+  format: '{type}{scope}: {emoji}{subject}',
+  list: [
+    'test',
+    'feat',
+    'fix',
+    'chore',
+    'docs',
+    'refactor',
+    'style',
+    'ci',
+    'perf',
+  ],
+  maxMessageLength: 64,
+  minMessageLength: 3,
+  questions: [
+    'type',
+    'scope',
+    'subject',
+    'body',
+    'breaking',
+    'issues',
+    'lerna',
+  ],
+  scopes: [],
+  types: {
+    chore: {
+      description: 'ビルドプロセスまたは補助ツールの変更',
+      emoji: '🔨',
+      value: 'chore',
+    },
+    ci: {
+      description: 'CI関連の変更',
+      emoji: '🤖',
+      value: 'ci',
+    },
+    docs: {
+      description: 'ドキュメントのみの変更',
+      emoji: '📄',
+      value: 'docs',
+    },
+    feat: {
+      description: '新機能の追加',
+      emoji: '🚀',
+      value: 'feat',
+    },
+    fix: {
+      description: 'バグ修正',
+      emoji: '🐞',
+      value: 'fix',
+    },
+    perf: {
+      description: 'パフォーマンスを改善するコード変更',
+      emoji: '⚡️',
+      value: 'perf',
+    },
+    refactor: {
+      description: 'バグ修正や機能追加を行わないコード変更',
+      emoji: '🔧',
+      value: 'refactor',
+    },
+    release: {
+      description: 'リリースコミットの作成',
+      emoji: '🎉',
+      value: 'release',
+    },
+    style: {
+      description: 'マークアップ、空白、フォーマット、セミコロンの欠落など',
+      emoji: '💄',
+      value: 'style',
+    },
+    test: {
+      description: '不足しているテストの追加',
+      emoji: '🐛',
+      value: 'test',
+    },
+    messages: {
+      type: 'コミットする変更のタイプを選択してください:',
+      customScope: 'このコンポーネントに影響を与える範囲を選択してください:',
+      subject: '変更の短い、命令形の説明を書いてください:\n',
+      body: '変更の詳細を記述してください:\n ',
+      breaking: '破壊的な変更をリストアップしてください:\n',
+      footer: 'このコミットで閉じる問題、例：＃123:',
+      confirmCommit: 'このコミットが影響を与えたパッケージ\n',
+    },
+  },
+}

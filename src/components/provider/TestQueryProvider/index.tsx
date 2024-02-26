@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 /**
  * テスト用のQueryProvider
- * エラーをテストするために、エラー時のdelayを0に設定している
+ * エラーをテストするために、エラー時のrefetch delayを0に設定している
  * @param children
  * @returns
  */
