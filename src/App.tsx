@@ -59,7 +59,7 @@ function App() {
             <Dialog triggerText="都道府県の選択">
               <SelectPrefectureForm
                 prefectures={prefectures}
-                selectPrefecture={selectedPrefectures}
+                selectPrefectures={selectedPrefectures}
                 handleSelectPrefecture={toggleSelectPrefecture}
               />
             </Dialog>
@@ -67,7 +67,7 @@ function App() {
           : (
             <SelectPrefectureForm
               prefectures={prefectures}
-              selectPrefecture={selectedPrefectures}
+              selectPrefectures={selectedPrefectures}
               handleSelectPrefecture={toggleSelectPrefecture}
             />
             ))}

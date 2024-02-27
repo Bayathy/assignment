@@ -8,13 +8,13 @@ interface Props {
   handleSelectPrefecture: (
     pressed: boolean,
   ) => (selectPrefecture: Prefecture) => void
-  selectPrefecture: Prefecture[]
+  selectPrefectures: Prefecture[]
   prefectures: Prefecture[]
 }
 
 export const SelectPrefectureForm: FC<Props> = ({
   handleSelectPrefecture,
-  selectPrefecture,
+  selectPrefectures,
   prefectures,
 }) => {
   return (
@@ -43,7 +43,7 @@ export const SelectPrefectureForm: FC<Props> = ({
                 width: 100%;
                 height: fit-content;
               `}
-              pressed={selectPrefecture.some(
+              pressed={selectPrefectures.some(
                 p => p.prefCode === prefecture.prefCode,
               )}
               onPressedChange={(pressed: boolean) =>
