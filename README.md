@@ -69,9 +69,13 @@ bun dev
 - linter周りについて
 
   eslint, stylelint, prettierを採用しました。
+
+  
   eslint configに関しては @antfu/eslint-configを採用しました。
   このコンフィグでは、prettierを使うことは推奨していませんが([参考](https://antfu.me/posts/why-not-prettier/))、下記のコードのような状態でもインデントが修正されないため、prettierを使っています。そのため、CI上でのprettierによるスタイリングの修正は行わず、prettier => eslint fixの順で実行して対応してしまっています。
-  ただこの場合、共同開発時にはprettierを使ったかのcheckができないため、問題があるかもしれません。
+
+
+  ただこの場合、CI上でprettierのstyle checkを実行できないため、共同開発時に問題があるかもしれません。
   このeslint-configを使わずに自分で書くことも検討しましたが、時間の都合上と既存のconfigを引き継ぐと設定ファイルが肥大化してしまうため、断念しました。
 
 ```tsx
