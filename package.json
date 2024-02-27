@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --max-warnings 0",
     "lint:styles": "stylelint src/**/*.tsx",
-    "lint:fix": "eslint . --fix && stylelint src/**/*.tsx --fix",
+    "lint:fix": "prettier src --write && eslint . --fix && stylelint src/**/*.tsx --fix",
     "format": "prettier src --write .",
     "preview": "vite preview",
     "test": "vitest --passWithNoTests",
