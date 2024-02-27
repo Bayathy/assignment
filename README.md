@@ -77,11 +77,13 @@ bun dev
 ```tsx
 <div
   className={css`
-    color: red;
-    font-size: 20px;
+color: red;
+font-size: 20px;
   `}
 />
 ```
 
 - その他
+
+
 commitルールの統一のためにgit-czを使用しています。
