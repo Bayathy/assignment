@@ -1,21 +1,21 @@
 import type { FC } from 'react'
 import { css } from '@kuma-ui/core'
 
-import { Toggle } from '../../ui/Toggle'
 import type { Prefecture } from '../../../model/prefecture'
+import { Checkbox } from '../../ui/CheckBox'
 
 interface Props {
   handleSelectPrefecture: (
     pressed: boolean,
   ) => (selectPrefecture: Prefecture) => void
-  selectPrefectures: Prefecture[]
   prefectures: Prefecture[]
+  selectedPrefectures: Prefecture[]
 }
 
 export const SelectPrefectureForm: FC<Props> = ({
   handleSelectPrefecture,
-  selectPrefectures,
   prefectures,
+  selectedPrefectures,
 }) => {
   return (
     <form>
@@ -36,22 +36,23 @@ export const SelectPrefectureForm: FC<Props> = ({
             margin-top: 16px;
           `}
         >
-          {prefectures.map(prefecture => (
-            <Toggle
-              key={prefecture.prefName}
-              className={css`
-                width: 100%;
-                height: fit-content;
-              `}
-              pressed={selectPrefectures.some(
-                p => p.prefCode === prefecture.prefCode,
-              )}
-              onPressedChange={(pressed: boolean) =>
-                handleSelectPrefecture(pressed)(prefecture)}
-            >
-              {prefecture.prefName}
-            </Toggle>
-          ))}
+          {prefectures.map((prefecture) => {
+            return (
+              <Checkbox
+                aria-label={`${prefecture.prefName}を選択`}
+                key={prefecture.prefName}
+                checked={selectedPrefectures.some(
+                  selectedPrefecture =>
+                    selectedPrefecture.prefCode === prefecture.prefCode,
+                )}
+                onCheckedChange={(checked) => {
+                  handleSelectPrefecture(!!checked)(prefecture)
+                }}
+              >
+                {prefecture.prefName}
+              </Checkbox>
+            )
+          })}
         </div>
       </fieldset>
     </form>

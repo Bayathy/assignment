@@ -89,5 +89,4 @@ font-size: 20px;
 
 - その他
 
-
 commitルールの統一のためにgit-czを使用しています。
