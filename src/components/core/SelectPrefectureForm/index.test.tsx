@@ -3,51 +3,53 @@ import { prefectures } from '../../../mocks/data/prefectures'
 import { SelectPrefectureForm } from '.'
 
 it('正しい数のToggleがレンダリングされる', () => {
-  const selectPrefecture = prefectures.result
-
   render(
     <SelectPrefectureForm
       handleSelectPrefecture={() => () => {}}
-      selectPrefectures={[]}
-      prefectures={selectPrefecture}
+      prefectures={prefectures.result}
+      selectedPrefectures={[]}
     />,
   )
 
-  const toggles = screen.getAllByRole('button')
+  const checkbox = screen.getAllByRole('checkbox')
 
-  expect(toggles).toHaveLength(selectPrefecture.length)
+  expect(checkbox).toHaveLength(prefectures.result.length)
 })
 
-it('選択された都道府県のToggleがpressedになる', () => {
+it('選択された都道府県のCheckboxがcheckedになる', async () => {
   const selectPrefecture = prefectures.result
 
   render(
     <SelectPrefectureForm
       handleSelectPrefecture={() => () => {}}
-      selectPrefectures={[selectPrefecture[0]]}
-      prefectures={selectPrefecture}
+      prefectures={prefectures.result}
+      selectedPrefectures={[selectPrefecture[0]]}
     />,
   )
 
-  const toggles = screen.getAllByRole('button')
+  const checkbox = screen.getAllByRole('checkbox')
 
-  expect(toggles[0]).toHaveAttribute('aria-pressed', 'true')
+  fireEvent.click(checkbox[0])
+
+  expect(checkbox[0]).toHaveAttribute('aria-checked', 'true')
 })
 
-it('選択されていない都道府県のToggleがpressedにならない', () => {
+it('選択されていない都道府県のToggleがcheckedにならない', async () => {
   const selectPrefecture = prefectures.result
 
   render(
     <SelectPrefectureForm
       handleSelectPrefecture={() => () => {}}
-      selectPrefectures={[selectPrefecture[0]]}
       prefectures={selectPrefecture}
+      selectedPrefectures={[selectPrefecture[0]]}
     />,
   )
 
-  const toggles = screen.getAllByRole('button')
+  const checkbox = screen.getAllByRole('checkbox')
 
-  expect(toggles[1]).toHaveAttribute('aria-pressed', 'false')
+  fireEvent.click(checkbox[0])
+
+  expect(checkbox[1]).toHaveAttribute('aria-checked', 'false')
 })
 
 it('toggleを押すとhandleSelectPrefectureが呼ばれる', async () => {
@@ -57,14 +59,14 @@ it('toggleを押すとhandleSelectPrefectureが呼ばれる', async () => {
   render(
     <SelectPrefectureForm
       handleSelectPrefecture={() => handleSelectPrefecture}
-      selectPrefectures={[]}
       prefectures={selectPrefecture}
+      selectedPrefectures={[selectPrefecture[0]]}
     />,
   )
 
-  const toggles = screen.getAllByRole('button')
+  const checkbox = screen.getAllByRole('checkbox')
 
-  await fireEvent.click(toggles[0])
+  fireEvent.click(checkbox[0])
 
   expect(handleSelectPrefecture).toHaveBeenCalled()
 })

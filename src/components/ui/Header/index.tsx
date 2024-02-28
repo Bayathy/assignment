@@ -1,7 +1,7 @@
 import { css } from '@kuma-ui/core'
-import type { FC } from 'react'
+import { type FC, memo } from 'react'
 
-export const Header: FC = () => {
+export const Header: FC = memo(() => {
   return (
     <header
       className={css`
@@ -19,4 +19,4 @@ export const Header: FC = () => {
       </h1>
     </header>
   )
-}
+})

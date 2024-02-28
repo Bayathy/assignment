@@ -21,8 +21,8 @@ function App() {
   usePopulations(selectedPrefectures)
 
   const toggleSelectPrefecture
-    = (pressed: boolean) => (selectPrefecture: Prefecture) => {
-      const newList = pressed
+    = (checked: boolean) => (selectPrefecture: Prefecture) => {
+      const newList = checked
         ? [selectPrefecture, ...selectedPrefectures]
         : selectedPrefectures.filter(
           prefecture => prefecture.prefCode !== selectPrefecture.prefCode,
@@ -59,15 +59,15 @@ function App() {
             <Dialog triggerText="都道府県の選択">
               <SelectPrefectureForm
                 prefectures={prefectures}
-                selectPrefectures={selectedPrefectures}
                 handleSelectPrefecture={toggleSelectPrefecture}
+                selectedPrefectures={selectedPrefectures}
               />
             </Dialog>
             )
           : (
             <SelectPrefectureForm
               prefectures={prefectures}
-              selectPrefectures={selectedPrefectures}
+              selectedPrefectures={selectedPrefectures}
               handleSelectPrefecture={toggleSelectPrefecture}
             />
             ))}
