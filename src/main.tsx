@@ -8,12 +8,15 @@ import './global.css'
 
 import { setupMockWorker } from './mocks/browser.ts'
 import { QueryProvider } from './components/provider/QueryProvider'
+import { HomeLayout } from './components/layout/HomeLayout.tsx'
 
 setupMockWorker().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <QueryProvider>
-        <App />
+        <HomeLayout>
+          <App />
+        </HomeLayout>
       </QueryProvider>
     </React.StrictMode>,
   )
