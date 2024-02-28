@@ -1,11 +1,10 @@
 import { css } from '@kuma-ui/core'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Chart } from './components/core/Chart'
 import { SelectPrefectureForm } from './components/core/SelectPrefectureForm'
 import { ModeTabs } from './components/core/ModeTabs'
 import { usePrefectures } from './hooks/usePrefectures'
 import type { Prefecture } from './model/prefecture'
-import { usePopulations } from './hooks/usePopulations'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { Dialog } from './components/ui/Dialog'
 
@@ -16,19 +15,17 @@ function App() {
   const [selectedPrefectures, setSelectedPrefectures] = useState<Prefecture[]>(
     [],
   )
-  // const { populations, isLoading } = usePopulations(selectedPrefectures)
-  usePopulations(selectedPrefectures)
 
   const toggleSelectPrefecture
-    = (checked: boolean) => (selectPrefecture: Prefecture) => {
-      const newList = checked
-        ? [selectPrefecture, ...selectedPrefectures]
-        : selectedPrefectures.filter(
-          prefecture => prefecture.prefCode !== selectPrefecture.prefCode,
-        )
+  = useCallback((checked: boolean) => (selectPrefecture: Prefecture) => {
+    const newList = checked
+      ? [selectPrefecture, ...selectedPrefectures]
+      : selectedPrefectures.filter(
+        prefecture => prefecture.prefCode !== selectPrefecture.prefCode,
+      )
 
-      setSelectedPrefectures(newList)
-    }
+    setSelectedPrefectures(newList)
+  }, [selectedPrefectures])
 
   return (
     <main
